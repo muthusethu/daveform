@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+        <title>Add Edit Remove HTML Table Row</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+       
+        
+    </head>
+    <body>
+     
+        <div class="container">
+            <div class="tab tab-1">
+                <table id="table" border="1">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Date of Birth</th>
+                        <th>Email</th>
+                        <th>Mobile No</th>
+                        <th>City</th>
+                        <th>Pin code</th>
+                    </tr>
+                    
+                </table>
+            </div>
+            <div class="tab tab-2">
+                First Name : <input type="text" name="fname" id="fname" placeholder="Enter your first Name" required >
+                Last Name :<input type="text" name="lname" id="lname" placeholder="Enter your last Name">
+                Date of Birth :<input type="text" id="age" onblur = "ValidateDOB()" placeholder="dd/mm/yyyy">
+                               <span class="error" id="lblError"></span><br>
+                Email :<input type="text" id="email" name="email" placeholder="enter your email"  required>
+                Mobile No :<input type="number" name="mobile" id="mobile" placeholder="Enter Mobile No">
+                
+                City :<input type="text" name="city" id="city" placeholder="Enter your City">
+                Zip code : <input type="number" name="zip" id="zip" placeholder="Enter Zip code" class="input">
+                <button id="button" onclick="addHtmlTableRow();">Add</button>
+                <button onclick="editHtmlTbleSelectedRow();">Edit</button>
+                <button onclick="removeSelectedRow();">Remove</button>
+            </div>
+            </div>
+         <script>
+            
+            var rIndex,
+                table = document.getElementById("table");
+            
+function ValidateEmail(inputText)
+{
+var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+if(inputText.match(mailformat))
+{
+
+return false;
+}
+else
+{
+alert("You have entered an invalid email address!");
+return true;
+}
+}      
+
+
+            // check the empty input
+            function checkEmptyInput()
+            {
+                var isEmpty = false,
+                    fname = document.getElementById("fname").value,
+                    lname = document.getElementById("lname").value,
+                    age = document.getElementById("age").value;
+                    email = document.getElementById("email").value;
+                    mobile = document.getElementById("mobile").value;
+                    city = document.getElementById("city").value;
+                    zip = document.getElementById("zip").value;
+                if(fname === ""){
+                    alert("First Name Can Be Empty");
+                    isEmpty = true;
+                }
+                else if(lname === ""){
+                    alert("Last Name Can Be Empty");
+                    isEmpty = true;
+                }
+                else if(age ===""){
+                    alert("Age Can Be Empty");
+                    isEmpty = true;
+                }
+                
+                else if(mobile.length<10 || mobile.length>10){
+                    alert("Please enter valid mobile Number");
+                    isEmpty = true;
+                }
+                else if(city === ""){
+                    alert("City Can Be Empty");
+                    isEmpty = true;
+                }
+                else if(zip.length<6 || zip.length>6){
+                    alert("please enter 6 digit Zip code");
+                    isEmpty = true;
+                }
+                 else if(email ===""){
+                    alert("Email Can Be Empty");
+                    isEmpty = true;
+               }
+	       else if(email.value!=true){
+               result = ValidateEmail(email);
+                   isEmpty = result;
+                    
+               }
+                return isEmpty;
+            }
+            
+            // add Row
+            function addHtmlTableRow()
+            {
+                // get the table by id
+                // create a new row and cells
+                // get value from input text
+                // set the values into row cell's
+                if(!checkEmptyInput()){
+                var newRow = table.insertRow(table.length),
+                    cell1 = newRow.insertCell(0),
+                    cell2 = newRow.insertCell(1),
+                    cell3 = newRow.insertCell(2),
+                    cell4 = newRow.insertCell(3),
+                    cell5 = newRow.insertCell(4),
+                    cell6 = newRow.insertCell(5),
+                    cell7 = newRow.insertCell(6),
+                    fname = document.getElementById("fname").value,
+                    lname = document.getElementById("lname").value,
+                    age = document.getElementById("age").value;
+                    email = document.getElementById("email").value;
+                    mobile = document.getElementById("mobile").value;
+                    city = document.getElementById("city").value;
+                    zip = document.getElementById("zip").value;
+            
+                cell1.innerHTML = fname;
+                cell2.innerHTML = lname;
+                cell3.innerHTML = age;
+                cell4.innerHTML = email;
+                cell5.innerHTML = mobile;
+                cell6.innerHTML = city;
+                cell7.innerHTML = zip;
+                // call the function to set the event to the new row
+                selectedRowToInput();
+            }
+            }
+            
+            // display selected row data into input text
+            function selectedRowToInput()
+            {
+                
+                for(var i = 1; i < table.rows.length; i++)
+                {
+                    table.rows[i].onclick = function()
+                    {
+                      // get the seected row index
+                      rIndex = this.rowIndex;
+                      document.getElementById("fname").value = this.cells[0].innerHTML;
+                      document.getElementById("lname").value = this.cells[1].innerHTML;
+                      document.getElementById("age").value = this.cells[2].innerHTML;
+                      document.getElementById("email").value = this.cells[3].innerHTML;
+                      document.getElementById("mobile").value = this.cells[4].innerHTML;
+                      document.getElementById("city").value = this.cells[5].innerHTML;
+                      document.getElementById("zip").value = this.cells[6].innerHTML;
+                    };
+                }
+            }
+            selectedRowToInput();
+            
+            function editHtmlTbleSelectedRow()
+            {
+                var fname = document.getElementById("fname").value,
+                    lname = document.getElementById("lname").value,
+                    age = document.getElementById("age").value;
+                    email = document.getElementById("email").value;
+                    mobile = document.getElementById("mobile").value;
+                    city = document.getElementById("city").value;
+                    zip = document.getElementById("zip").value;
+               if(!checkEmptyInput()){
+                table.rows[rIndex].cells[0].innerHTML = fname;
+                table.rows[rIndex].cells[1].innerHTML = lname;
+                table.rows[rIndex].cells[2].innerHTML = age;
+                table.rows[rIndex].cells[3].innerHTML = email;
+                table.rows[rIndex].cells[4].innerHTML = mobile;
+                table.rows[rIndex].cells[5].innerHTML = city;
+                table.rows[rIndex].cells[6].innerHTML = zip;
+              }
+            }
+            
+            function removeSelectedRow()
+            {
+                table.deleteRow(rIndex);
+                // clear input text
+                document.getElementById("fname").value = "";
+                document.getElementById("lname").value = "";
+                document.getElementById("age").value = "";
+document.getElementById("email").value = "";
+document.getElementById("mobile").value = "";
+document.getElementById("city").value = "";
+document.getElementById("zip").value = "";
+            }
+        </script>
+
+
+
+<script type="text/javascript">
+    function ValidateDOB() {
+        var lblError = document.getElementById("lblError");
+ 
+        //Get the date from the TextBox.
+        var dateString = document.getElementById("age").value;
+        var regex = /(((0|1)[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/((19|20)\d\d))$/;
+ 
+        //Check whether valid dd/MM/yyyy Date Format.
+        if (regex.test(dateString)) {
+            var parts = dateString.split("/");
+            var dtDOB = new Date(parts[1] + "/" + parts[0] + "/" + parts[2]);
+            var dtCurrent = new Date();
+            lblError.innerHTML = "You are Not Eligible Only above 18"
+            if (dtCurrent.getFullYear() - dtDOB.getFullYear() < 18) {
+                return false;
+            }
+ 
+            if (dtCurrent.getFullYear() - dtDOB.getFullYear() == 18) {
+ 
+                //CD: 11/06/2018 and DB: 15/07/2000. Will turned 18 on 15/07/2018.
+                if (dtCurrent.getMonth() < dtDOB.getMonth()) {
+                    return false;
+                }
+                if (dtCurrent.getMonth() == dtDOB.getMonth()) {
+                    //CD: 11/06/2018 and DB: 15/06/2000. Will turned 18 on 15/06/2018.
+                    if (dtCurrent.getDate() < dtDOB.getDate()) {
+                        return false;
+                    }
+                }
+            }
+            lblError.innerHTML = "";
+            return true;
+        } else {
+            lblError.innerHTML = "Enter date in dd/MM/yyyy format ONLY."
+            return false;
+        }
+    }
+</script>
+    </body>
+</html>
